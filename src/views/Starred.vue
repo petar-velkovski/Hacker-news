@@ -93,7 +93,7 @@ function applyFilters() {
 // Search results handler (e.g., for a search bar)
 function searchedData(searchQuery) {
   posts.value = allPosts.value.filter((post) =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    post.title?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
 }
 
