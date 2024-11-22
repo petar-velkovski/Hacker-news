@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref, watch, defineEmits } from "vue";
+import { ref, watch } from "vue";
 import debounce from "@/utils/debounce";
 
 const searchQuery = ref("");
