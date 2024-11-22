@@ -69,14 +69,12 @@ const toggleFavorite = async () => {
   const favoritesKey = "favorites";
   const favorites = JSON.parse(localStorage.getItem(favoritesKey)) || [];
 
-  const index = favorites.findIndex(
-    (item) => item.objectID === post.value.objectID
-  );
-
+  const index = favorites.findIndex((item) => item.id === post.value.id);
   if (index !== -1) {
     // Item already exists in favorites, remove it
     favorites.splice(index, 1);
     isFavorited.value = false;
+    localStorage.setItem("favorites", JSON.stringify(favorites));
   } else {
     try {
       // Fetch the item details using the provided method

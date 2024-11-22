@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import SearchResults from "@/components/SearchResults.vue";
 import Filters from "@/components/Filters.vue";
 import PostList from "@/components/PostList.vue";
@@ -21,6 +21,31 @@ const fetchPostsFromLocalStorage = () => {
   loading.value = false; // Mark loading as complete
 };
 
+// Poll for changes in localStorage
+let pollingInterval = null;
+
+const startPolling = () => {
+  const favoritesKey = "favorites";
+  let lastSavedPosts = JSON.stringify(localStorage.getItem(favoritesKey));
+
+  pollingInterval = setInterval(() => {
+    const currentSavedPosts = JSON.stringify(
+      localStorage.getItem(favoritesKey)
+    );
+    if (currentSavedPosts !== lastSavedPosts) {
+      // If data has changed, fetch the updated data
+      fetchPostsFromLocalStorage();
+      lastSavedPosts = currentSavedPosts; // Update last known state
+    }
+  }, 500); // Check every second (500ms)
+};
+
+const stopPolling = () => {
+  if (pollingInterval) {
+    clearInterval(pollingInterval); // Stop polling when component is destroyed
+  }
+};
+
 // Update filters and apply filtering
 const updateFilters = (newFilters) => {
   filters.value = newFilters;
@@ -29,7 +54,6 @@ const updateFilters = (newFilters) => {
 
 // Apply filters to the posts
 const applyFilters = () => {
-  // First, filter the posts
   let filteredPosts = allPosts.value.filter((post) => {
     let matches = true;
 
@@ -77,10 +101,8 @@ const applyFilters = () => {
   // Then, apply sorting based on the selected type
   if (filters.value.type) {
     if (filters.value.type === "Date") {
-      // Sort by `created_at_i` from newest to oldest
       filteredPosts.sort((a, b) => b.created_at_i - a.created_at_i);
     } else if (filters.value.type === "Popularity") {
-      // Sort by `points` from highest to lowest
       filteredPosts.sort((a, b) => b.points - a.points);
     }
   }
@@ -97,7 +119,15 @@ const searchedData = (searchQuery) => {
 };
 
 // Fetch posts when the component is mounted
-fetchPostsFromLocalStorage();
+onMounted(() => {
+  fetchPostsFromLocalStorage(); // Initial fetch when mounted
+  startPolling(); // Start polling for changes in localStorage
+});
+
+// Cleanup polling when the component is unmounted
+onUnmounted(() => {
+  stopPolling();
+});
 </script>
 
 <template>

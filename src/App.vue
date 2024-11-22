@@ -3,7 +3,9 @@ import { ref, onMounted, provide } from "vue";
 import Sidebar from "./components/Sidebar.vue";
 import Loader from "@/components/Loader.vue";
 import ErrorAlert from "./components/ErrorAlert.vue";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const triggerScrollBottom = ref(false);
 provide("triggerScrollBottom", triggerScrollBottom);
 
@@ -56,7 +58,10 @@ onMounted(() => {
     <Loader />
     <Sidebar />
     <div ref="mainContent" class="main-content">
-      <ErrorAlert v-if="errorMessage" :error="errorMessage" />
+      <ErrorAlert
+        v-if="errorMessage && route.name !== 'Starred'"
+        :error="errorMessage"
+      />
       <router-view />
     </div>
   </div>
