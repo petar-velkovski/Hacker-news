@@ -24,7 +24,6 @@ const error = ref(null);
 const emit = defineEmits();
 
 const fetchResults = async () => {
-  //loading.value = true;
   error.value = null;
   emit("searchedData", searchQuery.value);
 };
