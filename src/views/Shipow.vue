@@ -1,11 +1,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { fetchShipowStories } from "../services/HNService";
+import { fetchShipowData } from "../services/HNService";
 
 const user = ref(null);
 const loading = ref(true);
 onMounted(async () => {
-  user.value = await fetchShipowStories();
+  user.value = await fetchShipowData();
   loading.value = false;
 });
 </script>

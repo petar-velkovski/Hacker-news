@@ -5,7 +5,7 @@ const props = defineProps(["comments"]);
 const { timeAgo } = useTimeAgo();
 
 // Helper function to generate a color from text (based on user's name)
-function generateColorFromString(str) {
+const generateColorFromString = (str) => {
   let hash = 0;
   if (str && str.length > 0) {
     for (let i = 0; i < str.length; i++) {
@@ -14,7 +14,7 @@ function generateColorFromString(str) {
     const color = `hsl(${hash % 360}, 70%, 70%)`; // Generate a color based on string
     return color;
   }
-}
+};
 </script>
 
 <template>

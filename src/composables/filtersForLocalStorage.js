@@ -5,7 +5,7 @@ export function filtersForLocalStorage(posts) {
   const filteredPosts = ref(posts);
 
   // Apply filters based on the selected filters
-  function applyFilters(filters) {
+  const applyFilters = (filters) => {
     let filteredResults = posts.value;
 
     // Handle category filter
@@ -69,7 +69,7 @@ export function filtersForLocalStorage(posts) {
 
     // Update filteredPosts
     filteredPosts.value = filteredResults;
-  }
+  };
 
   // Return the filtered posts and the applyFilters method
   return {

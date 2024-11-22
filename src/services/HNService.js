@@ -20,7 +20,7 @@ export async function fetchData(
 /**
  * Fetch stories by a specific user.
  */
-export async function fetchShipowStories() {
+export async function fetchShipowData() {
   const response = await fetch(`${SEARCH_BASE_URL}/users/Shipow`);
   return response.json();
 }

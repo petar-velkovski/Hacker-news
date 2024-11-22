@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const emit = defineEmits(["update:filters"]);
-
+const props = defineProps(["info"]);
 const categories = ref(["Stories", "Comments"]);
 const types = ref(["Popularity", "Date"]);
 const timeRanges = ref(["Last 24h", "Past Week", "Past Month", "All Time"]);
@@ -86,44 +86,78 @@ watch(
 </script>
 
 <template>
-  <div class="filters">
-    <select
-      v-model="filters.category"
-      @change="onFilterChange"
-      :disabled="
-        route.name === 'ShowHN' ||
-        route.name === 'AskHN' ||
-        route.name === 'Polls' ||
-        route.name === 'Jobs'
-      "
-    >
-      <option v-for="category in categories" :key="category" :value="category">
-        {{ category }}
-      </option>
-    </select>
-
-    <select v-model="filters.type" @change="onFilterChange">
-      <option v-for="type in types" :key="type" :value="type">
-        {{ type }}
-      </option>
-    </select>
-
-    <select v-model="filters.timeRange" @change="onFilterChange">
-      <option v-for="range in timeRanges" :key="range" :value="range">
-        {{ range }}
-      </option>
-    </select>
-
-    <select v-model="filters.popularityFilter" @change="onFilterChange">
-      <option value="">Popularity</option>
-      <option value=">50">More than 50 points</option>
-      <option value="<=50">Less than or equal to 50 points</option>
-      <option value=">100">More than 100 points</option>
-    </select>
+  <div class="filters-wrapper">
+    <div class="filters">
+      <select
+        v-model="filters.category"
+        @change="onFilterChange"
+        :disabled="
+          route.name === 'ShowHN' ||
+          route.name === 'AskHN' ||
+          route.name === 'Polls' ||
+          route.name === 'Jobs'
+        "
+      >
+        <option
+          v-for="category in categories"
+          :key="category"
+          :value="category"
+        >
+          {{ category }}
+        </option>
+      </select>
+      <span class="adjectives">by</span>
+      <select v-model="filters.type" @change="onFilterChange">
+        <option v-for="type in types" :key="type" :value="type">
+          {{ type }}
+        </option>
+      </select>
+      <span class="adjectives">for</span>
+      <select v-model="filters.timeRange" @change="onFilterChange">
+        <option v-for="range in timeRanges" :key="range" :value="range">
+          {{ range }}
+        </option>
+      </select>
+      <span class="adjectives">and</span>
+      <select v-model="filters.popularityFilter" @change="onFilterChange">
+        <option value="">Popularity</option>
+        <option value=">50">More than 50 points</option>
+        <option value="<=50">Less than or equal to 50 points</option>
+        <option value=">100">More than 100 points</option>
+      </select>
+    </div>
+    <div class="info">
+      <span class="info-text">{{ props.info }}</span>
+      <span @click.stop><i class="material-icons disabled">share</i></span>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.filters-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.adjectives {
+  margin-top: 7px;
+  opacity: 0.5;
+  font-size: 12px;
+}
+.disabled {
+  opacity: 0.5;
+  font-size: 16px;
+  cursor: not-allowed;
+}
+.info {
+  display: flex;
+  align-items: center;
+}
+.info-text {
+  font-size: 14px;
+  opacity: 0.5;
+  margin-right: 10px;
+}
 .filters {
   display: flex;
   gap: 1rem;

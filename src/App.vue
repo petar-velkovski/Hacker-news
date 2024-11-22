@@ -14,7 +14,7 @@ const errorMessage = ref(null);
 const isLoading = ref(false);
 const ongoingRequests = ref(0);
 
-function handleScroll() {
+const handleScroll = () => {
   const container = mainContent.value;
   if (
     container.scrollHeight - container.scrollTop === container.clientHeight &&
@@ -22,7 +22,7 @@ function handleScroll() {
   ) {
     triggerScrollBottom.value = true;
   }
-}
+};
 provide("isLoading", isLoading);
 
 const originalFetch = window.fetch;

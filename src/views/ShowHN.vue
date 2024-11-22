@@ -10,10 +10,8 @@ const triggerScrollBottom = inject("triggerScrollBottom");
 const mainContent = inject("mainContent");
 
 // Use composable
-const { posts, loading, searchedData, updateFilters } = usePostFetcher(
-  triggerScrollBottom,
-  mainContent
-);
+const { posts, loading, responseInfo, searchedData, updateFilters } =
+  usePostFetcher(triggerScrollBottom, mainContent);
 onMounted(() => {
   triggerScrollBottom.value = false;
 });
@@ -22,7 +20,7 @@ onMounted(() => {
 <template>
   <div>
     <SearchResults @searchedData="searchedData" />
-    <Filters @update:filters="updateFilters" />
+    <Filters :info="responseInfo" @update:filters="updateFilters" />
     <PostList :posts="posts" v-if="!loading" />
   </div>
 </template>

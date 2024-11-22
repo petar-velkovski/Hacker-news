@@ -13,12 +13,13 @@ const comments = ref([]);
 const isLoading = inject("isLoading", true);
 const { timeAgo } = useTimeAgo();
 
-function goBack() {
+const goBack = () => {
   router.back();
-}
-function trimUrl(url) {
+};
+
+const trimUrl = (url) => {
   return url.length > 50 ? url.substring(0, 50) + "..." : url;
-}
+};
 // Watch the route params for changes and fetch data
 watch(
   () => route.params.id,

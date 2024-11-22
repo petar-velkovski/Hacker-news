@@ -13,23 +13,22 @@ const loading = ref(true);
 const filters = ref({}); // Example filters object
 
 // Fetch posts from localStorage
-function fetchPostsFromLocalStorage() {
+const fetchPostsFromLocalStorage = () => {
   const favoritesKey = "favorites";
   const savedPosts = JSON.parse(localStorage.getItem(favoritesKey)) || [];
   allPosts.value = savedPosts; // Save all posts for reference
   posts.value = savedPosts; // Initially display all posts
   loading.value = false; // Mark loading as complete
-}
+};
 
 // Update filters and apply filtering
-function updateFilters(newFilters) {
+const updateFilters = (newFilters) => {
   filters.value = newFilters;
-  console.log(filters.value);
   applyFilters();
-}
+};
 
 // Apply filters to the posts
-function applyFilters() {
+const applyFilters = () => {
   // First, filter the posts
   let filteredPosts = allPosts.value.filter((post) => {
     let matches = true;
@@ -88,14 +87,14 @@ function applyFilters() {
 
   // Update the posts with the filtered and sorted result
   posts.value = filteredPosts;
-}
+};
 
 // Search results handler (e.g., for a search bar)
-function searchedData(searchQuery) {
+const searchedData = (searchQuery) => {
   posts.value = allPosts.value.filter((post) =>
     post.title?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
-}
+};
 
 // Fetch posts when the component is mounted
 fetchPostsFromLocalStorage();

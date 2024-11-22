@@ -14,7 +14,7 @@ const comments = ref([]);
 const isFavorited = ref(false); // Track if the post is favorited
 const { timeAgo } = useTimeAgo();
 
-function openPostDetails() {
+const openPostDetails = () => {
   router.push({
     name: "PostDetails",
     params: { id: post.value.id || post.value.objectID },
@@ -22,9 +22,9 @@ function openPostDetails() {
       starred: route.name === "Starred" ? true : undefined,
     },
   });
-}
+};
 
-async function showComments() {
+const showComments = async () => {
   try {
     toggleComments.value = !toggleComments.value;
     if (toggleComments.value) {
@@ -48,24 +48,24 @@ async function showComments() {
       }
     }
   } catch (error) {
-    console.error(error);
+    post.value = null;
   }
-}
+};
 
-function openPostUrl(val) {
+const openPostUrl = (val) => {
   if (val) {
     window.open(val, "_blank");
   }
-}
+};
 
-function trimUrl(url, maxLength = 30) {
+const trimUrl = (url, maxLength = 30) => {
   if (url.length > maxLength) {
     return url.slice(0, maxLength) + "..."; // Trim the URL and add ellipsis
   }
   return url;
-}
+};
 
-async function toggleFavorite() {
+const toggleFavorite = async () => {
   const favoritesKey = "favorites";
   const favorites = JSON.parse(localStorage.getItem(favoritesKey)) || [];
 
@@ -92,7 +92,7 @@ async function toggleFavorite() {
       console.error("Error fetching the item:", error);
     }
   }
-}
+};
 
 onMounted(() => {
   post.value = props.post;
@@ -113,7 +113,7 @@ onMounted(() => {
       </div>
       <div class="post-meta">
         <div class="meta-left">
-          <span v-if="post.points" class="wrapper">
+          <span v-if="post.points || post.type === 'story'" class="wrapper">
             <i class="material-icons">favorite_border</i>
             {{ post.points }} points
           </span>

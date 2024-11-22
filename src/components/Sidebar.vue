@@ -6,19 +6,19 @@ const isSidebarCollapsed = ref(false);
 const isMobile = ref(false);
 
 // Toggle sidebar collapse state
-function toggleSidebar() {
+const toggleSidebar = () => {
   isSidebarCollapsed.value = !isSidebarCollapsed.value;
-}
+};
 
 // Check if the screen is mobile size
-function checkMobile() {
+const checkMobile = () => {
   isMobile.value = window.innerWidth <= 960;
   if (isMobile.value) {
     isSidebarCollapsed.value = true;
   } else {
     isSidebarCollapsed.value = false;
   }
-}
+};
 
 // Watch for window resize events to update the screen size state
 onMounted(() => {
